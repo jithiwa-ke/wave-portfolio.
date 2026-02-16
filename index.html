@@ -378,6 +378,36 @@
     
     <div class="save-indicator" id="saveInd">💾 บันทึกแล้ว</div>
 </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "ใส่ของคุณ",
+    authDomain: "ใส่ของคุณ",
+    projectId: "ใส่ของคุณ",
+    storageBucket: "ใส่ของคุณ",
+    messagingSenderId: "ใส่ของคุณ",
+    appId: "ใส่ของคุณ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.saveToCloud = async function(data) {
+    await setDoc(doc(db, "portfolios", "main"), {
+      slots: data
+    });
+  };
+
+  window.loadFromCloud = async function() {
+    const snap = await getDoc(doc(db, "portfolios", "main"));
+    if (snap.exists()) {
+      return snap.data().slots;
+    }
+    return null;
+  };
+</script>
 
 <script>
     const STORAGE_KEY = 'my_wave_portfolio_sync_v12';
@@ -395,10 +425,15 @@
         }
     }
 
-    function init() {
+ async function init() {
+    const cloudData = await loadFromCloud();
+    if (cloudData) {
+        slots = cloudData;
+    } else {
         loadFromStorage();
-        renderTable();
     }
+    renderTable();
+}
 
     // --- Input Navigation Logic ---
     function focusNextInput(el) {
@@ -615,10 +650,12 @@
         if(s.w5_a) runCalcABC();
     }
 
-    function saveToStorage() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(slots));
-        showSaveIndicator();
-    }
+  async function saveToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(slots));
+    await saveToCloud(slots);
+    showSaveIndicator();
+}
+
     
     function resetAllData() {
         if(confirm("ยืนยันล้างข้อมูลหุ้นทั้ง 10 ตัว?")) {
@@ -769,8 +806,9 @@
         document.getElementById('res-abc').style.display = 'block';
     }
 
-    init();
+ init();
 </script>
 
 </body>
+
 </html>
