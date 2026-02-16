@@ -378,9 +378,8 @@
     
     <div class="save-indicator" id="saveInd">💾 บันทึกแล้ว</div>
 </div>
-
-  <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+<script>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -412,11 +411,6 @@ window.loadFromCloud = async function() {
   return null;
 };
 
-console.log("Firebase connected");
-</script>
-
-
-<script>
     const STORAGE_KEY = 'my_wave_portfolio_sync_v12';
     let slots = [];
     let currentSlotIdx = -1;
@@ -819,6 +813,7 @@ console.log("Firebase connected");
 </body>
 
 </html>
+
 
 
 
