@@ -379,6 +379,24 @@
     <div class="save-indicator" id="saveInd">💾 บันทึกแล้ว</div>
 </div>
 
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBdMODBKDv-JIn4Ixk5j5wYCZm-udz6X7E",
+  authDomain: "wave-portfolio.firebaseapp.com",
+  projectId: "wave-portfolio",
+  storageBucket: "wave-portfolio.firebasestorage.app",
+  messagingSenderId: "671919937098",
+  appId: "1:671919937098:web:4a17a495cc4fbc419978b3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+console.log("Firebase connected");
+</script>
 
 <script>
     const STORAGE_KEY = 'my_wave_portfolio_sync_v12';
@@ -783,4 +801,5 @@
 </body>
 
 </html>
+
 
